@@ -15,8 +15,12 @@ connection.connect((err) => {
     init();
 });
 
-const init() {
-
+const init = () => {
+    inquirer.prompt([
+        {
+            
+        }
+    ])
 }
 
 const exit = () => {

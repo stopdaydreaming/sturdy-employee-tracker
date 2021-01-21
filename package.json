@@ -1,0 +1,25 @@
+{
+  "name": "sturdy-employee-tracker",
+  "version": "1.0.0",
+  "description": "# Description A simple command-line application that allows non-developers to view and interact with information stored in databases.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stopdaydreaming/sturdy-employee-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stopdaydreaming/sturdy-employee-tracker/issues"
+  },
+  "homepage": "https://github.com/stopdaydreaming/sturdy-employee-tracker#readme",
+  "dependencies": {
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  }
+}

@@ -28,11 +28,11 @@ figlet('Employee Manager', function(err, data) {
 });
 
 const init = () => {
-    inquirer.prompt([
-        {
-            name
-        }
-    ])
+    // inquirer.prompt([
+    //     {
+    //         name
+    //     }
+    // ])
 }
 
 const exit = () => {

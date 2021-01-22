@@ -1,5 +1,7 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+//npm package for ascii text art
+const figlet = require('figlet');
 
 const connection = mysql.createConnection({
     host: "localhost",
@@ -15,10 +17,20 @@ connection.connect((err) => {
     init();
 });
 
+//ascii text art
+figlet('Employee Manager', function(err, data) {
+    if (err) {
+        console.log('Something went wrong...');
+        console.dir(err);
+        return;
+    }
+    console.log(data)
+});
+
 const init = () => {
     inquirer.prompt([
         {
-            
+            name
         }
     ])
 }

@@ -1,18 +1,10 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
-
+const connection = require("./db/connection");
 const init = require("./lib/init");
 
 //npm package for ascii text art
 const figlet = require("figlet");
-
-const connection = mysql.createConnection({
-  host: "localhost",
-  port: 3306,
-  user: "root",
-  password: "HotTo$$y",
-  database: "employees_db"
-});
 
 connection.connect(function(err) {
   if (err) throw err;

@@ -14,7 +14,7 @@ const connection = mysql.createConnection({
   database: "employees_db"
 });
 
-connection.connect(err => {
+connection.connect(function(err) {
   if (err) throw err;
   console.log(`connected as id: ${connection.threadId}`);
   init();
@@ -30,4 +30,4 @@ figlet("Employee Manager", function(err, data) {
   console.log(data);
 });
 
-module.exports = connection;
+module.exports = { connection };

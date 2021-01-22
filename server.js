@@ -1,16 +1,10 @@
-const mysql = require("mysql");
-const inquirer = require("inquirer");
+// const mysql = require("mysql");
+// const inquirer = require("inquirer");
+// const init = require("./lib/init");
 const connection = require("./db/connection");
-const init = require("./lib/init");
 
 //npm package for ascii text art
 const figlet = require("figlet");
-
-connection.connect(function(err) {
-  if (err) throw err;
-  console.log(`connected as id: ${connection.threadId}`);
-  init();
-});
 
 //ascii text art
 figlet("Employee Manager", function(err, data) {

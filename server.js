@@ -1,5 +1,8 @@
 const mysql = require("mysql");
 const inquirer = require("inquirer");
+
+const init = require("./lib/init");
+
 //npm package for ascii text art
 const figlet = require("figlet");
 
@@ -8,7 +11,7 @@ const connection = mysql.createConnection({
   port: 3306,
   user: "root",
   password: "HotTo$$y",
-  database: "./db/employees_db"
+  database: "employees_db"
 });
 
 connection.connect(err => {
@@ -27,8 +30,4 @@ figlet("Employee Manager", function(err, data) {
   console.log(data);
 });
 
-//init();
-
-const exit = () => {
-  connection.end();
-};
+module.exports = connection;

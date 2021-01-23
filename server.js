@@ -88,11 +88,11 @@ const init = () => {
 const viewAll = () => {
   // console.log("view all");
   const query = `
-  SELECT e.id, CONCAT(e.first_name, " ", e.last_name) as employees, r.title as roles, d.name AS departments, CONCAT(m.first_name, " ", m.last_name) as manager
-  FROM employees e
-  INNER JOIN roles r ON r.id = e.role_id
-  LEFT JOIN departments d ON d.id = r.department_id
-  LEFT JOIN employees m ON e.manager_id = m.id;`;
+    SELECT e.id, CONCAT(e.first_name, " ", e.last_name) as employees, r.title as roles, d.name AS departments, CONCAT(m.first_name, " ", m.last_name) as manager
+   FROM employees e
+   INNER JOIN roles r ON r.id = e.role_id
+   LEFT JOIN departments d ON d.id = r.department_id
+   LEFT JOIN employees m ON e.manager_id = m.id;`;
   connection.query(query, (err, data) => {
     if (err) throw err;
     console.table(data);
@@ -195,40 +195,34 @@ const addEmployee = () => {
 };
 
 const removeEmployee = () => {
-  console.log("remove employee");
-  const choices = [
-    "Gary Snail",
-    "Jerry Seinfeld",
-    "Mikal Piston",
-    "Homer Simpson",
-    "Marge Simpson",
-    "Bart Simpson"
-  ];
-  // const queryTwo = `SELECT * FROM roles`;
-  // connection.query(queryTwo, (err, data) => {
-  //   if (err) throw err;
-  //   const roles = data.map(roles => {
-  //     return {
-  //       name: roles.title,
-  //       value: roles.id
-  //     };
-  //   });
-  inquirer
-    .prompt({
-      type: "list",
-      name: "deleteEmp",
-      message: "Which employee would you like to delete?",
-      choices: choices
-    })
-    .then(function(answer) {
-      console.log(answer.employee);
-      const query = "DELETE FROM employees WHERE ?";
-      connection.query(query, { deleteEmp: answer.employee }, (err, data) => {
-        if (err) throw err;
-        console.log(res.data + " employee deleted!\n");
-        init();
-      });
+  // console.log("remove employee");
+  const query = `SELECT * FROM employees`;
+  connection.query(query, (err, data) => {
+    if (err) throw err;
+    const employees = data.map(employees => {
+      return {
+        name: `${employees.first_name} ${employees.last_name}`,
+        value: employees.id
+      };
     });
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "delete",
+          message: "Which employee would you like to delete?",
+          choices: employees
+        }
+      ])
+      .then(({ employees }) => {
+        const query = `DELETE FROM employees WHERE id = ?;`;
+        connection.query(query, [employees], (err, data) => {
+          if (err) throw err;
+          console.log("Employee deleted!");
+          init();
+        });
+      });
+  });
 };
 
 const updateEmployee = () => {
@@ -269,7 +263,7 @@ const updateEmployee = () => {
         ])
         .then(({ employees, roles }) => {
           const query = `UPDATE employees SET role_id = ? WHERE id = ?`;
-          connection.query(query, [ employees, roles], (err, data) => {
+          connection.query(query, [employees, roles], (err, data) => {
             if (err) throw err;
             init();
           });

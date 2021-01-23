@@ -90,30 +90,30 @@ const viewAll = () => {
   // console.log("view all");
   const query = `SELECT * FROM employees`;
   connection.query(query, (err, data) => {
-    if(err) throw err;
+    if (err) throw err;
     console.table(data);
     init();
-  })
-}
+  });
+};
 
 const viewByDept = () => {
   // console.log("view by departments");
   const query = `SELECT * FROM departments`;
   connection.query(query, (err, data) => {
-    if(err) throw err;
+    if (err) throw err;
     console.table(data);
     init();
-  })
+  });
 };
 
 const viewByManager = () => {
   //console.log("view by manager");
   const query = `SELECT * FROM roles`;
   connection.query(query, (err, data) => {
-    if(err) throw err;
+    if (err) throw err;
     console.table(data);
     init();
-  })
+  });
 };
 
 const addEmployee = () => {
@@ -121,19 +121,19 @@ const addEmployee = () => {
   const query = `SELECT * FROM employees`;
   connection.query(query, (err, data) => {
     if (err) throw err;
-    const employees = data.map((employees) => {
+    const employees = data.map(employees => {
       return {
         name: `${employees.first_name} ${employees.last_name}`,
-        value: employees.id,
+        value: employees.id
       };
     });
     const query = `SELECT * FROM roles`;
     connection.query(query, (err, data) => {
       if (err) throw err;
-      const roles = data.map((roles) => {
+      const roles = data.map(roles => {
         return {
           name: roles.title,
-          value: roles.id,
+          value: roles.id
         };
       });
       inquirer
@@ -141,29 +141,32 @@ const addEmployee = () => {
           {
             type: "input",
             message: "What is the new employee's first name?",
-            name: "first_name",
+            name: "first_name"
           },
           {
             type: "input",
             message: "What is the new employee's last name?",
-            name: "last_name",
+            name: "last_name"
           },
           {
             type: "list",
             message: "What is the new employee's role?",
             name: "role",
-            choices: roles,
+            choices: roles
           },
           {
             type: "list",
             message: "Who is the new employee's manager?",
             name: "manager",
-            choices: employees,
-          },
+            choices: employees
+          }
         ])
         .then(({ first_name, last_name, role, manager }) => {
           const query = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUE (?, ?, ?, ?)`;
-          connection.query(query, [first_name, last_name, role, manager], (err, data) => {
+          connection.query(
+            query,
+            [first_name, last_name, role, manager],
+            (err, data) => {
               if (err) throw err;
               init();
             }
@@ -175,13 +178,30 @@ const addEmployee = () => {
 
 const removeEmployee = () => {
   // console.log("remove employee");
-  const query = `DELETE FROM employees WHERE ?`
-  connection.query(query, (err, data) => {
-      if (err) throw err;
-      console.log(res.data + " employee deleted!\n");
-      init();
-    }
-  );
+  const choices = [
+    "Gary Snail",
+    "Jerry Seinfeld",
+    "Mikal Piston",
+    "Homer Simpson",
+    "Marge Simpson",
+    "Bart Simpson"
+  ];
+  inquirer
+    .prompt({
+      type: "list",
+      name: "deleteEmp",
+      message: "Which employee would you like to delete?",
+      choices: choices
+    })
+    .then(function(answer) {
+      console.log(answer.employee);
+      const query = "DELETE FROM employees WHERE ?";
+      connection.query(query, { deleteEmp: answer.employee }, (err, data) => {
+        if (err) throw err;
+        console.log(res.data + " employee deleted!\n");
+        init();
+      });
+    });
 };
 
 const updateEmployeeByRole = () => {
@@ -196,4 +216,3 @@ const exit = () => {
   console.log("Goodbye!");
   connection.end();
 };
-

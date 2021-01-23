@@ -204,12 +204,9 @@ const removeEmployee = () => {
     });
 };
 
-const updateEmployeeByRole = () => {
+const updateEmployee = () => {
   console.log("update employee by role");
-};
-
-const updateEmployeeByManager = () => {
-  console.log("update employee by role");
+  console.log("update employee by manager");
 };
 
 const exit = () => {

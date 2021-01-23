@@ -88,7 +88,12 @@ const init = () => {
 
 const viewAll = () => {
   // console.log("view all");
-  const query = `SELECT * FROM employees`;
+  const query = `
+  SELECT e.id, CONCAT(e.first_name, " ", e.last_name) as employees, r.title as roles, d.name AS departments, CONCAT(m.first_name, " ", m.last_name) as manager
+  FROM employees e
+  INNER JOIN roles r ON r.id = e.role_id
+  LEFT JOIN departments d ON d.id = r.department_id
+  LEFT JOIN employees m ON e.manager_id = m.id;`;
   connection.query(query, (err, data) => {
     if (err) throw err;
     console.table(data);
@@ -98,7 +103,7 @@ const viewAll = () => {
 
 const viewByDept = () => {
   // console.log("view by departments");
-  const query = `SELECT * FROM departments`;
+  const query = `SELECT name AS departments FROM departments`;
   connection.query(query, (err, data) => {
     if (err) throw err;
     console.table(data);

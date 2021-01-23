@@ -41,8 +41,7 @@ const init = () => {
           "View All Employees By Manager",
           "Add Employee",
           "Remove Employee",
-          "Update Employee Role",
-          "Update Employee Manager",
+          "Update Employee",
           "View All Roles",
           "Update Employee Roles",
           "Exit"
@@ -71,12 +70,12 @@ const init = () => {
           removeEmployee();
           break;
 
-        case "Update Employee Role":
-          updateEmployeeByRole();
+        case "Update Employee":
+          updateEmployee();
           break;
 
-        case "Update Employee Manager":
-          updateEmployeeByManager();
+        case "View All Roles":
+          viewByRoles();
           break;
 
         case "Exit":
@@ -104,6 +103,16 @@ const viewAll = () => {
 const viewByDept = () => {
   // console.log("view by departments");
   const query = `SELECT name AS departments FROM departments`;
+  connection.query(query, (err, data) => {
+    if (err) throw err;
+    console.table(data);
+    init();
+  });
+};
+
+const viewByRoles = () => {
+  // console.log("view by roles");
+  const query = `SELECT * FROM roles`;
   connection.query(query, (err, data) => {
     if (err) throw err;
     console.table(data);
@@ -216,6 +225,49 @@ const removeEmployee = () => {
 const updateEmployee = () => {
   console.log("update employee by role");
   console.log("update employee by manager");
+  const queryEmployee = `SELECT * FROM employee`;
+  connection.query(queryEmployee, (err, data) => {
+    if (err) throw err;
+    const employees = data.map(employee => {
+      return {
+        name: `${employee.first_name} ${employee.last_name}`,
+        value: employee.id
+      };
+    });
+    const queryRole = `SELECT * FROM role`;
+    connection.query(queryRole, (err, data) => {
+      if (err) throw err;
+      const roles = data.map(role => {
+        return {
+          name: role.title,
+          value: role.id
+        };
+      });
+      inquirer
+        .prompt([
+          {
+            type: "list",
+            message: "Which employee do you want to update?",
+            name: "employee",
+            choices: employees
+          },
+          {
+            type: "list",
+            message: "What do you want the employee's role to be?",
+            name: "role",
+            choices: roles
+          }
+        ])
+        .then(({ employee, role }) => {
+          const queryString = `UPDATE employee SET role_id = ? WHERE id = ?`;
+          connection.query(queryString, [role, employee], (err, data) => {
+            if (err) throw err;
+            clear();
+            init();
+          });
+        });
+    });
+  });
 };
 
 const exit = () => {

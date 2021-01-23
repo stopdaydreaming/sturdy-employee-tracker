@@ -64,19 +64,19 @@ const init = () => {
           break;
 
         case "Add Employee":
-          addEmp();
+          addEmployee();
           break;
 
         case "Remove Employee":
-          removeEmp();
+          removeEmployee();
           break;
 
         case "Update Employee Role":
-          updEmpByRole();
+          updateEmployeeByRole();
           break;
 
         case "Update Employee Manager":
-          updEmpByManager();
+          updateEmployeeByManager();
           break;
 
         case "Exit":
@@ -87,28 +87,101 @@ const init = () => {
 };
 
 const viewAll = () => {
-  console.log("view all");
-  init();
+  // console.log("view all");
+  const query = `SELECT * FROM employees`;
+  connection.query(query, (err, data) => {
+    if(err) throw err;
+    console.table(data);
+    init();
+  })
 }
 
 const viewByDept = () => {
-  console.log("view by department");
-  IntersectionObserver();
+  // console.log("view by departments");
+  const query = `SELECT * FROM departments`;
+  connection.query(query, (err, data) => {
+    if(err) throw err;
+    console.table(data);
+    init();
+  })
 };
 
 const viewByManager = () => {
-  console.log("view by manager");
+  //console.log("view by manager");
+  const query = `SELECT * FROM roles`;
+  connection.query(query, (err, data) => {
+    if(err) throw err;
+    console.table(data);
+    init();
+  })
 };
 
-const addEmp = () => {
-  console.log("add employees");
+const addEmployee = () => {
+  //console.log("add employee");
+  const query = `SELECT * FROM employees`;
+  connection.query(query, (err, data) => {
+    if (err) throw err;
+    const employees = data.map((employees) => {
+      return {
+        name: `${employees.first_name} ${employees.last_name}`,
+        value: employees.id,
+      };
+    });
+    const query = `SELECT * FROM roles`;
+    connection.query(query, (err, data) => {
+      if (err) throw err;
+      const roles = data.map((roles) => {
+        return {
+          name: roles.title,
+          value: roles.id,
+        };
+      });
+      inquirer
+        .prompt([
+          {
+            type: "input",
+            message: "What is the new employee's first name?",
+            name: "first_name",
+          },
+          {
+            type: "input",
+            message: "What is the new employee's last name?",
+            name: "last_name",
+          },
+          {
+            type: "list",
+            message: "What is the new employee's role?",
+            name: "role",
+            choices: roles,
+          },
+          {
+            type: "list",
+            message: "Who is the new employee's manager?",
+            name: "manager",
+            choices: employees,
+          },
+        ])
+        .then(({ first_name, last_name, role, manager }) => {
+          const query = `INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUE (?, ?, ?, ?)`;
+          connection.query(query, [first_name, last_name, role, manager], (err, data) => {
+              if (err) throw err;
+              init();
+            }
+          );
+        });
+    });
+  });
 };
 
-const removeEmp = () => {
+const removeEmployee = () => {
   console.log("remove employee");
 };
 
-const updEmpByRole = () => {
+const updateEmployeeByRole = () => {
+  console.log("update employee by role");
+};
+
+const updateEmployeeByManager = () => {
   console.log("update employee by role");
 };
 

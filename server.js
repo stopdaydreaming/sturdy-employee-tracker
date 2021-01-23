@@ -113,7 +113,11 @@ const viewByDept = () => {
 
 const viewByManager = () => {
   //console.log("view by manager");
-  const query = `SELECT * FROM roles`;
+  const query = `    
+    SELECT e.id, CONCAT(e.first_name, " ", e.last_name) as employees, CONCAT(m.first_name, " ", m.last_name) as manager
+    FROM employees e
+    INNER JOIN roles r ON r.id = e.role_id
+    LEFT JOIN employees m ON e.manager_id = m.id;`;
   connection.query(query, (err, data) => {
     if (err) throw err;
     console.table(data);

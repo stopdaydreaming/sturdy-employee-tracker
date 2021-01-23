@@ -174,7 +174,14 @@ const addEmployee = () => {
 };
 
 const removeEmployee = () => {
-  console.log("remove employee");
+  // console.log("remove employee");
+  const query = `DELETE FROM employees WHERE ?`
+  connection.query(query, (err, data) => {
+      if (err) throw err;
+      console.log(res.data + " employee deleted!\n");
+      init();
+    }
+  );
 };
 
 const updateEmployeeByRole = () => {

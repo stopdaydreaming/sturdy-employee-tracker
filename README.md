@@ -1,6 +1,6 @@
 # Employee 🥸 Management System
 
-# Description
+## Description
 A simple command-line application that allows non-developers to view and interact with information stored in databases.
 
 ## Table of Contents

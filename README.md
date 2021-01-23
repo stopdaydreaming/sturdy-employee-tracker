@@ -19,8 +19,8 @@ A simple command-line application that allows non-developers to view and interac
 3. Double-click on the html file provided in the downloaded code to preview 
 
 ## Usage 
-This code should be used for the purpose of creating/editing code for a Employee Tracker. This code has not been deployed to a live site. It must be run locally.  
-![Employee Tracker](./assets/screenshot.png)  
+This code should be used for the purpose of creating/editing code for a Employee Management System. This code has not been deployed to a live site. It must be run locally.  
+![Employee Management System](./assets/screenshot.png)  
 
 ## Resources
 [figlet](https://www.npmjs.com/package/figlet) npm package to create ascii art text    
@@ -31,7 +31,7 @@ This code should be used for the purpose of creating/editing code for a Employee
 1 contributor: @stopdaydreaming  
 
 ## License
-Copyright (c) Employee Tracker. All rights reserved.
+Copyright (c) Employee Management System. All rights reserved.
 Licensed under the [MIT](LICENSE) license.
 
 ## Features
